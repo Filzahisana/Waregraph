@@ -7,6 +7,10 @@ import 'package:waregraph/view/pages/meter/meter.dart';
 import 'package:waregraph/view/pages/pipa_besar/pipa_besar.dart';
 import 'package:waregraph/view/pages/pipa_kecil/pipa_kecil.dart';
 
+// ###########################################################
+// #####################- NAVBAR GA DIPAKE  -######################
+// ###########################################################
+
 class WebLayout extends StatefulWidget {
   const WebLayout({
     super.key,
@@ -17,7 +21,7 @@ class WebLayout extends StatefulWidget {
 }
 
 class _WebLayoutState extends State<WebLayout> {
-  int selectedIndex = 0;
+  int selectedIndex = 4;
   SidebarXController? sidebarXController;
   final _key = GlobalKey<ScaffoldState>();
   bool onExtend = true;

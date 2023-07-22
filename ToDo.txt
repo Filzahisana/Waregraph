@@ -1,0 +1,24 @@
+Dashboard
+- ganti bg
+- komposisi jarak
+- jarak navbar drg konten (responsive if expanded)
+- semua tabel belum aktif
+
+NavBar
+- warna ??
+- Logout
+- sesuaikan icon
+- tambah logo
+
+Kategori
+- search bar belum aktif
+- PK_DetailItem
+    - tabel tidak muncul
+    - navbar hilang
+
+Input
+- Komposis ukuran
+- jarak input manual
+- timestamp sample data
+- layout upload excel
+- overflow input excel

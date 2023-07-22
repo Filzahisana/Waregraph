@@ -3,11 +3,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:waregraph/view/layout/size.dart';
 
 class SearchWidget extends StatelessWidget {
-  const SearchWidget({Key? key, this.onChanged, this.controller})
+  const SearchWidget(
+      {Key? key, this.onChanged, this.controller, this.useShadow = false})
       : super(key: key);
 
   final Function(String value)? onChanged;
   final TextEditingController? controller;
+  final bool? useShadow;
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +24,16 @@ class SearchWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 3,
-            blurRadius: 5,
-            offset: const Offset(0, 3), // changes position of shadow
-          ),
-        ],
+        boxShadow: !useShadow!
+            ? null
+            : [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 3,
+                  blurRadius: 5,
+                  offset: const Offset(0, 3), // changes position of shadow
+                ),
+              ],
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,

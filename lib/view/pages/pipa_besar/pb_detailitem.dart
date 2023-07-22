@@ -11,15 +11,15 @@ import '../../components/web_data_table.dart';
 import '../input/input.dart';
 // import 'package:waregraph/view/pages/dashboard/dashboard.dart';
 
-class PK_DetailItem extends StatefulWidget {
-  const PK_DetailItem({super.key, this.onBackTap});
+class PB_DetailItem extends StatefulWidget {
+  const PB_DetailItem({super.key, this.onBackTap});
   final Function()? onBackTap;
 
   @override
-  State<PK_DetailItem> createState() => _PK_DetailItemState();
+  State<PB_DetailItem> createState() => _PB_DetailItemState();
 }
 
-class _PK_DetailItemState extends State<PK_DetailItem> {
+class _PB_DetailItemState extends State<PB_DetailItem> {
   List<_SalesData> data = [
     _SalesData('2020', 58),
     _SalesData('2021', 78),

@@ -42,6 +42,14 @@ dependencies:
   app_bar_with_search_switch: ^1.5.1
   flutter_login: ^4.1.1
   flutter_svg: ^2.0.7
+  flutter_web_data_table: ^1.0.0
+  intl: ^0.18.1
+  dropdown_search: ^5.0.6
+  async_searchable_dropdown: ^0.0.6+3
+  universal_html: ^2.2.3
+  flutter_dropzone: ^3.0.5
+  google_fonts: ^5.1.0
+
 
 dev_dependencies:
   flutter_test:

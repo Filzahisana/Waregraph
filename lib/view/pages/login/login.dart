@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:waregraph/view/layout/web_layout.dart';
-import 'package:waregraph/view/pages/dashboard/dashboard.dart';
+// import 'package:waregraph/view/pages/dashboard/dashboard.dart';
 
 class Login extends StatelessWidget {
   @override
