@@ -1,7 +1,10 @@
+import 'package:floating_overlay/floating_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:waregraph/services/data/provider/input_provider.dart';
 import 'package:waregraph/view/components/web_data_table.dart';
 // import 'package:waregraph/view/layout/components/searchbar.dart';
 import 'package:waregraph/view/layout/size.dart';
@@ -19,195 +22,532 @@ class Input extends StatefulWidget {
 class _InputState extends State<Input> {
   DropzoneViewController? dropzoneViewController;
   bool dropOnHover = false;
+  // late InputDataProvider provider;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    // provider = Provider.of<InputDataProvider>(context, listen: false);
+    // provider.addListener(() {
+    //   setState(() {});
+    // });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Container(
-        width: Responsive.getWidthFromPrecentage(context, 100),
-        padding: EdgeInsets.symmetric(
-            vertical: 50,
-            horizontal: Responsive.getWidthFromPrecentage(context, 2)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              margin: EdgeInsets.only(bottom: 20),
-              child: Text(
-                'Tambah Data Ketersediaan Barang',
-                style: GoogleFonts.poppins(
-                    textStyle: Theme.of(context).textTheme.displayLarge,
-                    fontSize: 25,
-                    fontWeight: FontWeight.w400,
-                    letterSpacing: 0.5,
-                    color: Colors.blueGrey.shade800),
-              ),
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(18),
-                    width: Responsive.getWidthFromPrecentage(context, 25),
-                    height: 480,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
+    return Consumer<InputDataProvider>(
+        builder: (context, inputDataProvider, _) {
+      if (inputDataProvider.size == null) {
+        inputDataProvider.setSize(context);
+      }
+      // provider = inputDataProvider;
+      return FloatingOverlay(
+        controller: inputDataProvider.overlayControl,
+        // floatingChild: SizedBox.square(
+        //   dimension: 100.0,
+        //   child: Container(
+        //     decoration: BoxDecoration(
+        //       color: Theme.of(context).primaryColor,
+        //       border: Border.all(
+        //         color: Colors.black,
+        //         width: 5.0,
+        //       ),
+        //     ),
+        //   ),
+        // ),
+        floatingChild: Card(
+          color: Colors.teal,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          // padding: EdgeInsets.all(2),
+          // decoration: BoxDecoration(color: Colors.teal, boxShadow: [
+          //   BoxShadow(
+          //     color: Colors.grey.withOpacity(0.5),
+          //     spreadRadius: 3,
+          //     blurRadius: 5,
+          //     offset: const Offset(0, 3), // changes position of shadow
+          //   ),
+          // ]),
+          child: Container(
+            width: 250,
+            height: 75,
+            child: Stack(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/Logo Putih.jpg',
+                      width: 25,
+                      height: 25,
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        // ###########################################################
-                        // #####################-  Kasih Jarak  -#####################
-                        // ###########################################################
-                        DropdownField(title: 'Kategori'),
-                        DropdownField(title: 'Kode Barang'),
-                        DropdownField(title: 'Nama Barang'),
-                        DropdownField(title: 'Bulan'), //Month picker
-                        DropdownField(title: 'Jumlah'),
-                        Container(
-                          margin: EdgeInsets.only(top: 20),
-                          child: MaterialButton(
-                            onPressed: () {},
-                            minWidth: 120,
-                            height: 45,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12)),
-                            color: const Color.fromARGB(255, 51, 41, 124),
-                            colorBrightness: Brightness.dark,
-                            child: Text('Simpan'),
-                          ),
+                        Text(
+                          inputDataProvider.notificationTitle,
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.w600),
+                        ),
+                        inputDataProvider.notificationBody,
+                        Text(
+                          inputDataProvider.notificationTitle,
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.w300),
                         ),
                       ],
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(20),
-                    margin: EdgeInsets.only(left: 46),
-                    width: Responsive.getWidthFromPrecentage(context, 60),
-                    height: 480,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Stack(
-                      children: [
-                        DropZoneFile(
-                            onCreatedDropzoneViewController:
-                                dropzoneViewController,
-                            onHover: () {
-                              setState(() {
-                                dropOnHover = true;
-                              });
-                            },
-                            onLeave: () {
-                              setState(() {
-                                dropOnHover = false;
-                              });
-                            },
-                            margin: EdgeInsets.symmetric(horizontal: 20),
-                            width: 400,
-                            height: 300,
-                            body: Container(
-                              width: 400,
-                              height: 300,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(15),
-                                boxShadow: [],
-                              ),
-                              alignment: Alignment.center,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    height: 80,
+                    )
+                  ],
+                ),
+                Positioned(
+                    top: 1,
+                    right: 1,
+                    child: IconButton(
+                      iconSize: 12,
+                      onPressed: () {
+                        inputDataProvider.closeNotification();
+                        setState(() {});
+                      },
+                      icon: Icon(
+                        Icons.close_rounded,
+                        color: Colors.blueGrey.shade200,
+                      ),
+                    ))
+              ],
+            ),
+          ),
+        ),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Container(
+            width: Responsive.getWidthFromPrecentage(context, 100),
+            padding: EdgeInsets.symmetric(
+                vertical: 50,
+                horizontal: Responsive.getWidthFromPrecentage(context, 2)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(bottom: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        inputDataProvider.page[inputDataProvider.selectedPage]
+                            ['title'],
+                        style: GoogleFonts.poppins(
+                            textStyle: Theme.of(context).textTheme.displayLarge,
+                            fontSize: 25,
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 0.5,
+                            color: Colors.blueGrey.shade800),
+                      ),
+                      SizedBox(
+                        width: Responsive.getWidthFromPrecentage(
+                            context, Responsive.isDesktop(context) ? 40 : 90),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: List.generate(
+                              inputDataProvider.page.length,
+                              (index) => GestureDetector(
+                                onTap: () {
+                                  inputDataProvider.setPage(index);
+                                },
+                                child: Container(
+                                  height: 30,
+                                  padding: EdgeInsets.all(2),
+                                  margin: EdgeInsets.symmetric(horizontal: 15),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        inputDataProvider.page[index]
+                                            ['menuName'],
+                                        style: TextStyle(
+                                            color: Colors.blueGrey.shade800),
+                                      ),
+                                      if (inputDataProvider.selectedPage ==
+                                          index)
+                                        Container(
+                                            height: 3,
+                                            width: 30,
+                                            decoration: BoxDecoration(
+                                                color: Colors.purple.shade800))
+                                    ],
                                   ),
-                                  Text(
-                                    'or drop your file here',
-                                    style: GoogleFonts.poppins(
-                                        textStyle: Theme.of(context)
-                                            .textTheme
-                                            .displayLarge,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w400,
-                                        letterSpacing: 0.5,
-                                        color: Colors.blueGrey.shade800),
-                                  )
+                                ),
+                              ),
+                            ).toList(),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(18),
+                        width: Responsive.getWidthFromPrecentage(context, 25),
+                        height: 480,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: inputDataProvider
+                                .page[inputDataProvider.selectedPage]
+                            ['inputWidget'],
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(20),
+                        margin: EdgeInsets.only(left: 46),
+                        width: Responsive.getWidthFromPrecentage(context, 60),
+                        height: 480,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12)),
+                        child: inputDataProvider.excelFile != null
+                            ? ExcelFileLoaded(
+                                callback: () {
+                                  setState(() {
+                                    dropOnHover = false;
+                                  });
+                                },
+                              )
+                            : Stack(
+                                children: [
+                                  DropZoneFile(
+                                      onCreatedDropzoneViewController:
+                                          dropzoneViewController,
+                                      onDrop: (dynamic htmlFile) {
+                                        inputDataProvider.onDropFile(htmlFile);
+                                      },
+                                      onHover: () {
+                                        setState(() {
+                                          dropOnHover = true;
+                                        });
+                                      },
+                                      onLeave: () {
+                                        setState(() {
+                                          dropOnHover = false;
+                                        });
+                                      },
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 20),
+                                      width: 400,
+                                      height: 300,
+                                      body: Container(
+                                        width: 400,
+                                        height: 300,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          boxShadow: [],
+                                        ),
+                                        alignment: Alignment.center,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              height: 80,
+                                            ),
+                                            Text(
+                                              'or drop your file here',
+                                              style: GoogleFonts.poppins(
+                                                  textStyle: Theme.of(context)
+                                                      .textTheme
+                                                      .displayLarge,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w400,
+                                                  letterSpacing: 0.5,
+                                                  color:
+                                                      Colors.blueGrey.shade800),
+                                            )
+                                          ],
+                                        ),
+                                      )),
+                                  if (!dropOnHover)
+                                    Positioned(
+                                      top: 110,
+                                      right: 50,
+                                      left: 50,
+                                      child: MaterialButton(
+                                        onPressed: () {
+                                          // inputDataProvider.setExcelFile();
+                                          inputDataProvider.processBarangFile();
+                                        },
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 30, vertical: 20),
+                                        color: const Color.fromARGB(
+                                            255, 51, 41, 124),
+                                        minWidth: 200,
+                                        child: const Text(
+                                          'Upload Excel File',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18),
+                                        ),
+                                      ),
+                                    ),
                                 ],
                               ),
-                            )),
-                        if (!dropOnHover)
-                          Positioned(
-                            top: 110,
-                            right: 50,
-                            left: 50,
-                            child: MaterialButton(
-                              onPressed: () {},
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 30, vertical: 20),
-                              color: const Color.fromARGB(255, 51, 41, 124),
-                              minWidth: 200,
-                              child: const Text(
-                                'Upload Excel File',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
-                            ),
-                          ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-            SizedBox(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(bottom: 8, top: 50),
-                    child: Text(
-                      'Data Terbaru',
-                      style: GoogleFonts.poppins(
-                          textStyle: Theme.of(context).textTheme.displayLarge,
-                          fontSize: 25,
-                          fontWeight: FontWeight.w400,
-                          letterSpacing: 0.5,
-                          color: Colors.blueGrey.shade800),
-                    ),
+                      )
+                    ],
                   ),
-                  // SearchWidget(),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 10),
-              width: Responsive.getWidthFromPrecentage(context, 90),
-              height: 700,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12), color: Colors.white
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     color: Colors.pink.withOpacity(0.5),
-                  //     spreadRadius: 3,
-                  //     blurRadius: 5,
-                  //     offset:
-                  //         const Offset(0, 3), // changes position of shadow
-                  //   ),
-                  // ],
+                ),
+                SizedBox(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(bottom: 8, top: 50),
+                        child: Text(
+                          'Data Terbaru',
+                          style: GoogleFonts.poppins(
+                              textStyle:
+                                  Theme.of(context).textTheme.displayLarge,
+                              fontSize: 25,
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: 0.5,
+                              color: Colors.blueGrey.shade800),
+                        ),
+                      ),
+                      // SearchWidget(),
+                    ],
                   ),
-              child: InputDatatables(),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 10),
+                  width: Responsive.getWidthFromPrecentage(context, 90),
+                  height: 700,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.white
+                      // boxShadow: [
+                      //   BoxShadow(
+                      //     color: Colors.pink.withOpacity(0.5),
+                      //     spreadRadius: 3,
+                      //     blurRadius: 5,
+                      //     offset:
+                      //         const Offset(0, 3), // changes position of shadow
+                      //   ),
+                      // ],
+                      ),
+                  child: InputDatatables(),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
+      );
+    });
+  }
+}
+
+class TambahBarangField extends StatelessWidget {
+  const TambahBarangField({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final prov = context.watch<InputDataProvider>();
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          TextInput(
+            title: 'Nama Barang',
+          ),
+          TextInput(
+            title: 'Kode Barang',
+          ),
+          DropdownField(
+            title: 'Kategori',
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 6),
+            alignment: Alignment.centerLeft,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(bottom: 9, left: 22),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Margin stok',
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 98, 98, 98), fontSize: 12),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 20),
+                  child: Row(
+                    children: [
+                      Checkbox(
+                          value: prov.isGlobalMargin,
+                          onChanged: (val) {
+                            prov.isGlobalMarginSet(val!);
+                          }),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        'Gunakan margin global',
+                        style: TextStyle(color: Colors.blueGrey.shade800),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 50),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextInput(
+                        title: 'Red code',
+                        width: 270,
+                        disabled: prov.isGlobalMargin,
+                      ),
+                      TextInput(
+                          title: 'Blue code',
+                          width: 270,
+                          disabled: prov.isGlobalMargin),
+                      TextInput(
+                          title: 'Green code',
+                          width: 270,
+                          disabled: prov.isGlobalMargin)
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 20),
+            child: MaterialButton(
+              onPressed: () {},
+              minWidth: 120,
+              height: 45,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+              color: const Color.fromARGB(255, 51, 41, 124),
+              colorBrightness: Brightness.dark,
+              child: Text('Simpan'),
+            ),
+          ),
+        ],
       ),
+    );
+  }
+}
+
+class TambahDataStokField extends StatelessWidget {
+  const TambahDataStokField({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        // ###########################################################
+        // #####################-  Kasih Jarak  -#####################
+        // ###########################################################
+        DropdownField(title: 'Kategori'),
+        DropdownField(title: 'Kode Barang'),
+        DropdownField(title: 'Nama Barang'),
+        DropdownField(title: 'Bulan'), //Month picker
+        DropdownField(title: 'Jumlah'),
+        Container(
+          margin: EdgeInsets.only(top: 20),
+          child: MaterialButton(
+            onPressed: () {},
+            minWidth: 120,
+            height: 45,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            color: const Color.fromARGB(255, 51, 41, 124),
+            colorBrightness: Brightness.dark,
+            child: Text('Simpan'),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class ExcelFileLoaded extends StatelessWidget {
+  const ExcelFileLoaded({super.key, this.callback});
+  final Function()? callback;
+
+  @override
+  Widget build(BuildContext context) {
+    final prov = context.watch<InputDataProvider>();
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          'Excel File Loaded',
+          style: TextStyle(color: Colors.blueGrey.shade800, fontSize: 14),
+        ),
+        SizedBox(
+          height: 5,
+        ),
+        GestureDetector(
+          onTap: () {
+            prov.setExcelToNull();
+            if (callback != null) {
+              callback!();
+            }
+          },
+          child: Text(
+            'Re-upload Excel File',
+            style: TextStyle(color: Colors.purple.shade900, fontSize: 11),
+          ),
+        ),
+        SizedBox(
+          height: 35,
+        ),
+        MaterialButton(
+          onPressed: () {
+            print(prov.selectedPage);
+            print(prov.excelFile!.lengthInBytes.toString());
+            prov.processFile();
+            prov.processBarangFile();
+          },
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          minWidth: 75,
+          child: Text(
+            'Begin Processing File',
+          ),
+          color: Colors.teal.shade700,
+          colorBrightness: Brightness.dark,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        )
+      ],
     );
   }
 }
@@ -284,13 +624,16 @@ class DropdownField extends StatelessWidget {
             //////////////////////////////////////////////////////////////////////
             child: Text(
               title,
-              style: TextStyle(color: Colors.blueGrey.shade700, fontSize: 12),
+              style: TextStyle(
+                  color: Color.fromARGB(255, 98, 98, 98), fontSize: 12),
             ),
           ),
           Container(
             width: 300,
             height: 40,
+            padding: const EdgeInsets.symmetric(horizontal: 7),
             decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 233, 233, 233),
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
@@ -325,6 +668,67 @@ class DropdownField extends StatelessWidget {
               },
             ),
           )
+        ],
+      ),
+    );
+  }
+}
+
+class TextInput extends StatelessWidget {
+  const TextInput(
+      {super.key,
+      required this.title,
+      this.onChanged,
+      this.width = 300,
+      this.disabled = false});
+  final String title;
+  final Function(String value)? onChanged;
+  final double? width;
+  final bool? disabled;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 6),
+      // //////////////////////////////////////////////////////////////////////////
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            margin: EdgeInsets.only(bottom: 9),
+            //////////////////////////////////////////////////////////////////////
+            child: Text(
+              title,
+              style: TextStyle(
+                  color: Color.fromARGB(255, 98, 98, 98), fontSize: 12),
+            ),
+          ),
+          Container(
+              width: width,
+              height: 40,
+              alignment: Alignment.center,
+              padding: EdgeInsets.symmetric(horizontal: 7),
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 233, 233, 233),
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    // spreadRadius: 3,
+                    // blurRadius: 5,
+                    offset: const Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+              ),
+              child: TextField(
+                readOnly: disabled!,
+                onChanged: (val) {
+                  if (onChanged != null) {
+                    onChanged!(val);
+                  }
+                },
+              ))
         ],
       ),
     );

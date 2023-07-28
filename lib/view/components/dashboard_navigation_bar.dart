@@ -116,7 +116,7 @@ class _DashboardNavigationBarState extends State<DashboardNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(181, 209, 187, 222),
+      backgroundColor: Color.fromARGB(181, 236, 227, 241),
       body: Stack(
         children: [
           Padding(
@@ -816,7 +816,7 @@ class NavigationBarController extends ChangeNotifier {
   final Function(bool value)? onExpand;
 
   bool? isExpand;
-  int selectedMenuIndex = 1;
+  int selectedMenuIndex = 4;
   String? selectedMoreItemId;
 
   NavigationBarController({

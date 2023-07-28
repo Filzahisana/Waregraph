@@ -1,20 +1,21 @@
 Dashboard
-- ganti bg
+- ganti bg (dash nav)
 - komposisi jarak
 - jarak navbar drg konten (responsive if expanded)
 - semua tabel belum aktif
 
 NavBar
-- warna ??
+- warna ##
 - Logout
 - sesuaikan icon
-- tambah logo
+- tambah logo #############################
 
 Kategori
 - search bar belum aktif
 - PK_DetailItem
-    - tabel tidak muncul
+    - tabel tidak muncul ################# DONE #####################
     - navbar hilang
+    - ambil judul page dengan nama item
 
 Input
 - Komposis ukuran

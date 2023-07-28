@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:waregraph/services/auth/auth.dart';
 import 'package:waregraph/view/components/dashboard_navigation_bar.dart';
 import 'package:waregraph/view/pages/dashboard/dashboard.dart';
 import 'package:waregraph/view/pages/input/input.dart';
@@ -79,6 +80,7 @@ class _MainWaregraphLayoutState extends State<MainWaregraphLayout> {
         // ],
         pageBody: Input()),
   ];
+
   @override
   Widget build(BuildContext context) {
     return DashboardNavigationBar(

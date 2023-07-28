@@ -49,6 +49,15 @@ dependencies:
   universal_html: ^2.2.3
   flutter_dropzone: ^3.0.5
   google_fonts: ^5.1.0
+  excel: ^2.1.0
+  cloud_firestore: ^4.8.3
+  firebase_core: ^2.15.0
+  firebase_auth: ^4.7.1
+  google_sign_in: ^6.1.4
+  provider: ^6.0.5
+  html: ^0.15.4
+  floating_overlay: ^1.2.1
+  percent_indicator: ^4.2.3
 
 
 dev_dependencies:
